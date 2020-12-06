@@ -1,0 +1,25 @@
+MVC
+---------
+ - Model
+ - View (presentation layer - blade)
+ - Controller (main control - class)
+
+Routes
+--------
+ - routes>web.php
+   - ပြချင်တဲ့ page တစ်ခုချင်းစီအတွက် Route တစ်ခုရေးရမယ်။
+
+ - display route list that use in my page
+ 	- > php artisan route:list
+ 	- > (url, name, action)
+
+Controllers
+---------------
+	> app/Http/Controllers
+
+	- Create new Controller
+		> php artisan make:controller MainController
+
+
+
+
