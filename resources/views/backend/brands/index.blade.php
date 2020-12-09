@@ -41,8 +41,15 @@
                       <td>{{$brand->name}}</td>
                       <td><img src="{{$brand->photo}}" width="100"></td>
                       <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="{{route('brands.edit',$brand->id)}}" class="btn btn-warning">Edit</a>
+                        
+                        {{-- delete button --}}
+                        <form method="post" action="{{route('brands.destroy',$brand->id)}}" onsubmit="return confirm('Are you sure?')" class="d-inline-block">
+                          @csrf
+                          @method('DELETE')
+                          <input type="submit" name="btn-delete" class="btn btn-danger" value="Delete">
+                        </form>
+
                       </td>
                     </tr>
                     @endforeach

@@ -17,26 +17,41 @@
         <div class="col-md-12">
           <div class="tile">
             <div class="tile-body">
-              <h2>Subcategory Create Form</h2>
-              <form action="" method="post" enctype="multipart/form-data">
+              <h2 class="d-inline-block">Subcategory Edit Form</h2>
+              <a href="{{route('subcategories.index')}}" class="btn btn-outline-primary float-right">
+                  <i class="icofont-double-left"></i>
+              </a>
+              <form action="{{route('subcategories.update',$subcategory->id)}}" method="post">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                   <label for="exampleInputName">Name</label>
-                  <input type="text" class="form-control" id="exampleInputName" placeholder="Category Name" name="name">
-                  
+              <input type="text" class="form-control @error('name') is-invalid @enderror" id="exampleInputName" placeholder="Subcategory Name" name="name" value="{{$subcategory->name}}">
+                  @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                  @enderror
                 </div>
                 <div class="form-group">
-                    <label for="exampleSelect1">Example select</label>
-                    <select class="form-control" id="exampleSelect1">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                    <label for="exampleSelect1">Category</label>
+                    <select class="form-control" id="exampleSelect1" name="category_id">
+                      @foreach($categories as $category)
+
+                        @if($category->id == $subcategory->category_id)
+
+                          <option value="{{$category->id}}" selected="">{{$category->name}}</option>
+                        }
+                        }
+                        @else
+
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+
+                        @endif
+                      @endforeach
                     </select>
+                    
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary">Update</button>
               </form>
             </div>
           </div>

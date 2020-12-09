@@ -17,7 +17,7 @@
         <div class="col-md-12">
           <div class="tile">
             <div class="tile-body">
-              <h2 class="d-inline-block">Category Create Form</h2>
+              <h2 class="d-inline-block">Brand Create Form</h2>
               <a href="{{route('brands.index')}}" class="btn btn-outline-primary float-right">
                   <i class="icofont-double-left"></i>
               </a>

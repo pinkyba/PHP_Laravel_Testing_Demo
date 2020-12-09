@@ -24,6 +24,14 @@
 
     <!-- iconfont CSS -->
         <link rel="stylesheet" type="text/css" href="{{asset('backend_assets/icon/icofont/icofont.min.css')}}">
+
+    {{-- summernote --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
+
+  {{-- image slide in itemdetail page --}}
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
@@ -210,5 +218,42 @@
       }
     </script>
     @yield('script')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
+    {{-- summen note --}}
+    <script>
+      $('.summernote').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100
+      });
+    </script>
+
+    {{-- Multi file upload button --}}
+    <script type="text/javascript">
+      $(function () {
+        $(document).on('click', '.btn-add', function (e) {
+            e.preventDefault();
+
+            var controlForm = $('.controls:first'),
+                currentEntry = $(this).parents('.entry:first'),
+                newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+            newEntry.find('input').val('');
+            controlForm.find('.entry:not(:last) .btn-add')
+                .removeClass('btn-add').addClass('btn-remove')
+                .removeClass('btn-success').addClass('btn-danger')
+                .html('<i class="icofont-close"></i>');
+        }).on('click', '.btn-remove', function (e) {
+            $(this).parents('.entry:first').remove();
+
+            e.preventDefault();
+            return false;
+        });
+    });
+  </script>
+
+  @yield('slider')
+
   </body>
 </html>

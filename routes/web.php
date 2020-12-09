@@ -29,3 +29,10 @@ Route::resource('categories','CategoryController');
 Route::resource('subcategories','SubcategoryController');
 Route::resource('brands','BrandController');
 Route::resource('items','ItemController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes(['verify' => true]);
+
+Route::get('/home', 'HomeController@index')->name('home');

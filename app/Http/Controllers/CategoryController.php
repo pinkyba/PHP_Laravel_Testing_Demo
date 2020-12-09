@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('id','desc')->get();
         return view('backend.categories.index',compact('categories'));
     }
 
@@ -84,7 +84,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('backend.categories.edit');
+        // in edit function, if you carry category_id, you can get all category data in " $category " corresponding with each category_id
+        
+        return view('backend.categories.edit',compact('category'));
     }
 
     /**
@@ -96,7 +98,36 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        // dd($request);
+
+        // Validation
+        $request->validate([
+            "name" => "required",
+            "oldphoto" => "required",
+            "photo" => "mimes:jpg,jpeg,png"
+        ]);
+
+        //upload
+        if($request->file()){
+            // fileName => 624872374523_a.jpg
+            $fileName = time().'_'.$request->photo->getClientOriginalName();
+
+            // categoryimg/624872374523_a.jpg
+            $filePath = $request->file('photo')->storeAs('categoryimg',$fileName, 'public');
+
+            $path = '/storage/'.$filePath;
+        }
+        else{
+            $path = $request->oldphoto;
+        }
+
+        //update data into Category model
+        $category->name = $request->name;
+        $category->photo = $path;
+        $category->save();
+
+        //return
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -107,6 +138,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        //return
+        return redirect()->route('categories.index');
     }
 }

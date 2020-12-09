@@ -39,10 +39,19 @@
                     <tr>
                       <th scope="row">{{$i++}}</th>
                       <td>{{$subcategory->name}}</td>
-                      <td>{{$subcategory->category_name}}</td>
+
+                      {{-- // if you call " {{$subcategory->category}} ", you can get all category data corresponding with each subcategory --}}
+                      {{-- <td>{{$item->category}}</td> --}}
+
+                      <td>{{$subcategory->category->name}}</td>
                       <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="{{route('subcategories.edit',$subcategory->id)}}" class="btn btn-warning">Edit</a>
+
+                        <form method="post" action="{{route('subcategories.destroy',$subcategory->id)}}" onsubmit="return confirm('Are you sure?')" class="d-inline-block">
+                          @csrf
+                          @method('DELETE')
+                          <input type="submit" name="btn-delete" class="btn btn-danger" value="Delete">
+                        </form>
                       </td>
                     </tr>
                     @endforeach

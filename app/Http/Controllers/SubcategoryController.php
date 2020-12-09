@@ -16,10 +16,18 @@ class SubcategoryController extends Controller
      */
     public function index()
     {
-        $subcategories = DB::table('subcategories')
-        ->select('subcategories.name','categories.name as category_name')
-        ->join('categories','categories.id','=','subcategories.category_id')
-        ->get();
+        // joint table query
+
+            // $subcategories = DB::table('subcategories')
+            // ->select('subcategories.name','categories.name as category_name')
+            // ->join('categories','categories.id','=','subcategories.category_id')
+            // ->get();
+
+        // one to many relationship query
+        $subcategories = Subcategory::orderBy('id','desc')->get();
+
+        // if you call " $subcategory->category ", you can get all category data corresponding with each subcategory
+
         return view('backend.subcategories.index',compact('subcategories'));
     }
 
@@ -79,7 +87,8 @@ class SubcategoryController extends Controller
      */
     public function edit(Subcategory $subcategory)
     {
-        return view('backend.subcategories.edit');
+        $categories = Category::all();
+        return view('backend.subcategories.edit',compact('subcategory','categories'));
     }
 
     /**
@@ -91,7 +100,18 @@ class SubcategoryController extends Controller
      */
     public function update(Request $request, Subcategory $subcategory)
     {
-        //
+        // Validation
+        $request->validate([
+            "name"=> "required"
+        ]);
+
+        // update data in Subcategory model
+        $subcategory->name = $request->name;
+        $subcategory->category_id = $request->category_id;
+        $subcategory->save();
+
+        // return
+        return redirect()->route('subcategories.index');
     }
 
     /**
@@ -102,6 +122,9 @@ class SubcategoryController extends Controller
      */
     public function destroy(Subcategory $subcategory)
     {
-        //
+         $subcategory->delete();
+
+        //return
+        return redirect()->route('subcategories.index');
     }
 }

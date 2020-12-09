@@ -27,7 +27,15 @@
                 <div class="form-group row">
                   <label class="control-label col-md-3">Photo</label>
                   <div class="col-md-8">
-                    <input class="form-control @error('codeno') is-invalid @enderror" type="file" name="photo">
+                    <div class="controls">
+                      <div class="entry input-group upload-input-group">
+                          <input class="form-control" name="photos[]" type="file">
+                          <button class="btn btn-upload btn-success btn-add" type="button">
+                              <i class="icofont-plus"></i>
+                          </button>
+                      </div>
+                    </div>
+
                     @error('codeno')
                       <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -68,13 +76,13 @@
                     
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-unit-tab">
-                            <input class="form-control @error('unit_price') is-invalid @enderror" type="text" placeholder="Enter unit price" name="unit_price">
+                            <input class="form-control @error('unit_price') is-invalid @enderror" type="number" placeholder="Enter unit price" name="unit_price">
                             @error('unit_price')
                               <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-discount-tab">
-                            <input class="form-control" type="text" placeholder="Enter discount" name="discount">
+                            <input class="form-control" type="number" placeholder="Enter discount" name="discount">
                         </div>
                     </div>
                     
@@ -83,8 +91,7 @@
                 <div class="form-group row">
                   <label class="control-label col-md-3">Description</label>
                   <div class="col-md-8">
-                    <textarea class="form-control" rows="4" name="description"></textarea>
-                    
+                    <textarea class="summernote"></textarea>
                   </div>
                 </div>
                 <div class="form-group row">

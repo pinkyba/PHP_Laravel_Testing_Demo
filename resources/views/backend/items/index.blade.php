@@ -29,9 +29,6 @@
                       <th scope="col">Code No</th>
                       <th scope="col">Name</th>
                       <th scope="col">Price</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Brand</th>
-                      <th scope="col">Category</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -43,7 +40,11 @@
                     
                     <tr>
                       <th scope="row">{{$i++}}</th>
-                      <td><img src="{{$item->photo}}" width="100" height="100"></td>
+                      @php 
+                        $photos_array = json_decode($item->photo);                        
+                      @endphp
+
+                      <td><img src="{{$photos_array[0]}}" width="120" height="130"></td>
                       <td>{{$item->codeno}}</td>
                       <td>{{$item->name}}</td>
                       
@@ -56,13 +57,16 @@
                         <td>{{$item->price}} Ks</td>
                       @endif
 
-                      <td>{{$item->description}}</td>
-                      <td>{{$item->brand_name}}</td>
-                      <td>{{$item->subcategory_name}}</td>
-
                       <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="{{route('items.show',$item->id)}}" class="btn btn-warning d-inline-block">Detail</a>
+                        <a href="{{route('items.edit',$item->id)}}" class="btn btn-warning d-inline-block">Edit</a>
+                        
+                        {{-- delete button --}}
+                        <form method="post" action="{{route('items.destroy',$item->id)}}" onsubmit="return confirm('Are you sure?')" class="d-inline-block">
+                          @csrf
+                          @method('DELETE')
+                          <input type="submit" name="btn-delete" class="btn btn-danger" value="Delete">
+                        </form>
                       </td>
                     </tr>
                     @endforeach
