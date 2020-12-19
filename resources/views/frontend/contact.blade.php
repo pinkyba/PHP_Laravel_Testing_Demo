@@ -1,69 +1,128 @@
 @extends('master')
 
-@section('title')
-  Contact
-@endsection
-
-@section('content')
-
-	 <!-- Page Header -->
-  <header class="masthead" style="background-image: url({{asset('frontend_assets/img/contact-bg.jpg')}})">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="page-heading">
-            <h1>Contact Me</h1>
-            <span class="subheading">Have questions? I have answers.</span>
+@section('headerinner')
+  <!-- Header Inner -->
+    <div class="header-inner">
+      <div class="container">
+        <div class="cat-nav-head">
+          <div class="row">
+            <div class="col-12">
+              <div class="menu-area">
+                <!-- Main Menu -->
+                <nav class="navbar navbar-expand-lg">
+                  <div class="navbar-collapse"> 
+                    <div class="nav-inner"> 
+                      <ul class="nav main-menu menu navbar-nav">
+                        <li><a href="{{route('homepage')}}">Home</a></li>
+                        <li><a href="{{route('productpage')}}">Product</a></li>
+                        <li><a href="{{route('productpage')}}">Shop<i class="ti-angle-down"></i><span class="new">New</span></a>
+                          <ul class="dropdown">
+                            <li><a href="{{route('productpage')}}">Shop Grid</a></li>
+                            <li><a href="{{route('cartpage')}}">Cart</a></li>
+                            <li><a href="{{route('orderhistorypage')}}">Order History</a></li>
+                          </ul>
+                        </li>               
+                        
+                        <li class="active"><a href="{{route('contactpage')}}">Contact Us</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+                <!--/ End Main Menu --> 
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </header>
+    <!--/ End Header Inner -->
+@endsection
 
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-        <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
-        <!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
-        <!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
-        <!-- To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
-        <form name="sentMessage" id="contactForm" novalidate>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Name</label>
-              <input type="text" class="form-control" placeholder="Name" id="name" required data-validation-required-message="Please enter your name.">
-              <p class="help-block text-danger"></p>
+@section('content')
+  
+  <!-- Start Contact -->
+  <section id="contact-us" class="contact-us section">
+    <div class="container">
+        <div class="contact-head">
+          <div class="row">
+            <div class="col-lg-8 col-12">
+              <div class="form-main">
+                <div class="title">
+                  <h4>Get in touch</h4>
+                  <h3>Write us a message</h3>
+                </div>
+                <form class="form" method="post" action="mail/mail.php">
+                  <div class="row">
+                    <div class="col-lg-6 col-12">
+                      <div class="form-group">
+                        <label>Your Name<span>*</span></label>
+                        <input name="name" type="text" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <div class="form-group">
+                        <label>Your Subjects<span>*</span></label>
+                        <input name="subject" type="text" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <div class="form-group">
+                        <label>Your Email<span>*</span></label>
+                        <input name="email" type="email" placeholder="">
+                      </div>  
+                    </div>
+                    <div class="col-lg-6 col-12">
+                      <div class="form-group">
+                        <label>Your Phone<span>*</span></label>
+                        <input name="company_name" type="text" placeholder="">
+                      </div>  
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group message">
+                        <label>your message<span>*</span></label>
+                        <textarea name="message" placeholder=""></textarea>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="form-group button">
+                        <button type="submit" class="btn ">Send Message</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-4 col-12">
+              <div class="single-head">
+                <div class="single-info">
+                  <i class="fa fa-phone"></i>
+                  <h4 class="title">Call us Now:</h4>
+                  <ul>
+                    <li>+95987532884</li>
+                    <li>+95987532884</li>
+                  </ul>
+                </div>
+                <div class="single-info">
+                  <i class="fa fa-envelope-open"></i>
+                  <h4 class="title">Email:</h4>
+                  <ul>
+                    <li><a href="mailto:info@yourwebsite.com">b4ecommence.com.mm</a></li>
+                    <li><a href="mailto:info@yourwebsite.com">myshopping.com.mm</a></li>
+                  </ul>
+                </div>
+                <div class="single-info">
+                  <i class="fa fa-location-arrow"></i>
+                  <h4 class="title">Our Address:</h4>
+                  <ul>
+                    <li>NO. 342 - Kayay Street, Hlaing Township, Yangon</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Email Address</label>
-              <input type="email" class="form-control" placeholder="Email Address" id="email" required data-validation-required-message="Please enter your email address.">
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="form-group col-xs-12 floating-label-form-group controls">
-              <label>Phone Number</label>
-              <input type="tel" class="form-control" placeholder="Phone Number" id="phone" required data-validation-required-message="Please enter your phone number.">
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Message</label>
-              <textarea rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <br>
-          <div id="success"></div>
-          <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
+  </section>
+  <!--/ End Contact -->
 
 @endsection

@@ -16,4 +16,10 @@ class Category extends Model
     {
         return $this->hasMany('App\Subcategory');
     }
+
+    // hasManyThrough relationship category and item// subcategory is between category and item
+    public function items()
+    {
+        return $this->hasManyThrough('App\Item', 'App\Subcategory');
+    }
 }

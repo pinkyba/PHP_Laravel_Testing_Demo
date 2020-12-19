@@ -1,13 +1,26 @@
 MVC
 ---
-  - Model
-  - View (presentation layer - blade)
-  - Controller (main control - class)
+  - Model (app/Model ==> each model represents each table)
+  - View (resources/views ==> presentation layer - blade ==> To view UI)
+  - Controller (app/Http/Controllers ==> coding process (model ထဲမှာ ရှိနေတဲ့ db table ထဲက data တွေကို  CRUD process လုပ်ပေးတယ်။ view UI ဘက်ကနေ ပေးလိုက်တဲ့ http request တွေကို ခွဲခြမ်းစိတ်ဖြာပြီး သက်ဆိုင်ရာ response ပြန်ပေးတယ် ။))
 
-- Show all artisan commands (php artisan list)
+
+
+Start PHP laravel project steps (ref[ laravel.com ])
+------------------------------------------------
+1. Installing Laravel (ref[ https://laravel.com/docs/7.x/installation ])
+
+2. Check your installation complete
+  > call terminal in your laravel project directory, run this command
+  > php artisan serve
+
+- Show all artisan commands 
+  > php artisan list
+
 
 Routes
-  - web.php
+-----------
+  - routes/web.php
   - ပြချင်တဲ့ page တစ်ခုခြင်းစီအတွက် Route တစ်ခုစီရေးရမယ်
   - ရေးထားသော Route တွေကိုပြန်ကြည့်မယ် (php artisan route:list)
   - (uri, name, action)
@@ -17,37 +30,27 @@ Controllers
   - create new controller class (php artsian make:controller MainController)
   - can create methods
 
-To Read
--------
-  - MVC
-  - Balde Template Engine (Docs/Frontends/Balde Templates)
 
-Ecommerce Project step flow
-----------------------------
-  - Item Manage - 1
-  - User Manage - 2
-  - Order Manage - 3
+SQL Database CRUD process step (ref[ https://laravel.com/docs/7.x/database ])
+--------------------------------------
+  - create migration (database table)
+    > php artisan make:migration create_users_table
 
-  - User Roles
-    - customer
-      - register / login
-      - order
+  - create model, migrate and controller in one time [** Model name must be Capital letter.]
+    > php artisan make:model Item -m -r
 
-    - admin
-      - item crud
-      - order rud
+  - Before migration, .env file ထဲမှာ database name, http://localhost:8000 စတာတွေဝင်ပြောင်းရမယ်။
 
-  - DB Structure
-    - items (1, pen, 5000, uni, equipment, color, description) - 4
-      - brands - 3
-      - categories - 1
-      - subcategories - 2
-    - users
-    - orders
+  ***** .env file ထဲမှာ ဝင်ပြောင်းပြီးတိုင်း php artisan serve ကို အမြဲ ပြန် run ရမယ်။
 
-  --------------------------------------
+  - to create table make migration
+    > php artisan make migrate
+
+
+
+------------------------------------------
   Terminal Commands
------------------
+------------------------------------------
   - php artisan make:model Category -m (model + migration)
   - php artisan make:model Item -m -r (model + migration + resource controller[m-7])
   - php artisan make:controller BrandController --resource --model=Brand (resource controller related model)
@@ -63,24 +66,18 @@ Ecommerce Project step flow
   - Upload File
     - php artisan storage:link
 
+
+------------------------------------------------
 Clone Laravel Project From Git
-------------------------------
+--------------------------------------------------
 - git clone url
 - cd folder
 - copy .env.example .env
 - composer install
 - php artisan key:generate
 
-8 Dec 2020
-----------
-  - In item index
-    - codeno, name, price(discount) use number format, buttons (detail, edit, delete) 
-  - item show blade ui
-  - In item edit form
-      - select option -> auto selected
-      - item code readonly
-  - Summernote in description (create, edit)
-  - Multi File Upload
+
+
 
 Auth
 ----
@@ -91,10 +88,118 @@ Auth
   - npm run dev
   - read docs
 
-Frontend UI (html)
------------
-  - home (item တွေပြဖို့)
-  - cart 
-  - item detail page
-  - profile
-  - order history
+
+Middleware Aunthentication steps 
+-------------------------------------------
+  - role: customer, admin
+  - admin page: user is admin role and email verication
+
+1. To install  larravel permisson package ===> ref(https://spatie.be/docs/laravel-permission/v3/installation-laravel)
+
+    > composer require spatie/laravel-permission
+    
+
+2. To create migration and config/permission.php file
+
+    > php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+  Run this command and you will get these permisson and create_perssion_tables migration files: [\config\permission.php]
+  [\database\migrations\2020_12_10_192119_create_permission_tables.php]
+
+
+3. Run these migration files
+
+    > php artisan migrate
+
+
+
+To distingush cutomer role and admin role
+-----------------------------------------------
+    ref( https://spatie.be/docs/laravel-permission/v3/basic-usage/middleware#package-middleware )
+
+1. You can add this line inside your app/Http/Kernel.php file.
+
+   'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+
+
+
+2. Then you can protect your routes using middleware rule in your web.php.
+
+    Route::group(['middleware' => ['role:super-admin']], function () {
+    //
+    });
+
+    For Eg: For your admin role, you should do like this
+    ------------------------------------------------------
+    For Eg:   Route::middleware('role:admin')->group(function(){
+              // Backend
+              Route::get('dashboard', 'BackendController@dashboard')->name('dashboardpage');
+              // CRUD
+              Route::resource('categories','CategoryController');
+          });
+
+
+
+3. To define customer role: ref( https://spatie.be/docs/laravel-permission/v3/basic-usage/basic-usage )
+-----------------------------------------------------
+>>>> You identified admin role in db with id 2, so your register user must be cutomer role.
+>>>> You should assign cutomer role with assignRole('customer') in RegisterController.php
+
+    (1) First, add the Spatie\Permission\Traits\HasRoles trait to your User model(s):
+    In user.php,
+    -----------------
+
+        use Spatie\Permission\Traits\HasRoles;
+
+        class User extends Authenticatable
+        {
+            use HasRoles;
+
+            // ...
+        }
+
+
+    (2) And create RoleTableSeeder and add this
+
+        Role::create(['name' => 'customer']);
+        Role::create(['name' => 'admin']);
+
+    (3) And RegisterController.php , define 'customer' assign role
+
+        $user->assignRole('customer');
+        return $user;
+
+
+
+
+၁။ user login ဝင်လိုက်တာနဲ့ home page or admin page ကို တစ်ခါတည်းရောက်ချင်ရင် Auth/LoginController ထဲမှာ ဒါထည့်စစ်
+----------------------------------------------------------------------- 
+protected function redirectTo(){
+        $roles = auth()->user()->getRoleNames();
+
+        // Check user role
+        switch ($roles[0]) {
+            case 'admin':
+                return 'dashboard';
+                break;
+            
+            default:
+                return '/';
+                break;
+        }
+    }
+
+၂။ user, admin တွေက login ဝင်ထားပြီးတော့ url bar ကနေ localhost:8000/login လို့ခေါ်ရင် တစ်ခါတည်း home page ကို ပြနိုင်ဖို့ middleware/RedirectIfAuthenticated.php ထဲမှာ ဒါထည့်စစ်
+--------------------------------------------------------------------------
+$roles = auth()->user()->getRoleNames();
+
+// check user role
+switch ($roles[0]) {
+    case 'admin':
+        return redirect()->route('dashboardpage');
+        break;
+    
+    default:
+        return redirect()->route('homepage');
+        break;
+}

@@ -29,14 +29,14 @@
                   <div class="col-md-8">
                     <div class="controls">
                       <div class="entry input-group upload-input-group">
-                          <input class="form-control" name="photos[]" type="file">
+                          <input class="form-control @error('photos') is-invalid @enderror" name="photos[]" type="file">
                           <button class="btn btn-upload btn-success btn-add" type="button">
                               <i class="icofont-plus"></i>
                           </button>
                       </div>
                     </div>
 
-                    @error('codeno')
+                    @error('photos')
                       <div class="text-danger">{{ $message }}</div>
                     @enderror
                   </div>

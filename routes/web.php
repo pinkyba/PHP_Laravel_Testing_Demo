@@ -13,25 +13,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+// Frontend 
 Route::get('/', 'FrontendController@home')->name('homepage');
-Route::get('about', 'FrontendController@about')->name('aboutpage');
-Route::get('post', 'FrontendController@post')->name('postpage');
+Route::get('product', 'FrontendController@product')->name('productpage');
+Route::get('cart', 'FrontendController@cart')->name('cartpage');
+Route::get('productdetail/{id}', 'FrontendController@productdetail')->name('productdetailpage');
 Route::get('contact', 'FrontendController@contact')->name('contactpage');
+Route::get('orderhistory', 'FrontendController@orderhistory')->name('orderhistorypage');
+Route::get('showItemsBySubcategory/{id}', 'FrontendController@showItemsBySubcategory')->name('showItemsBySubcategorypage');
+Route::post('searchProduct','ItemController@searchProduct')->name('searchProductpage');
+Route::post('showItemLimit','ItemController@showItemLimit')->name('showItemLimitpage');
 
 
-// Backend
-Route::get('dashboard', 'BackendController@dashboard')->name('dashboardpage');
+Route::get('signup', 'FrontendController@signup')->name('signuppage');
 
 
-// CRUD
-Route::resource('categories','CategoryController');
-Route::resource('subcategories','SubcategoryController');
-Route::resource('brands','BrandController');
-Route::resource('items','ItemController');
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('role:admin')->group(function(){
+	// Backend
+	Route::get('dashboard', 'BackendController@dashboard')->name('dashboardpage');
+	// CRUD
+	Route::resource('categories','CategoryController');
+	Route::resource('subcategories','SubcategoryController');
+	Route::resource('brands','BrandController');
+	Route::resource('items','ItemController');
+
+	
+});
+
+// Order management
+	Route::resource('orders','OrderController');
+	Route::get('confirm/{id}','OrderController@confirm')->name('orders_confirm');
+
 
 Auth::routes(['verify' => true]);
 

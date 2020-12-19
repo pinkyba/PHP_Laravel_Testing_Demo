@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\Subcategory;
+use App\Category;
 use App\Brand;
 use Illuminate\Http\Request;
 use DB;
@@ -51,12 +52,12 @@ class ItemController extends Controller
         //dd($request->photos[0]);
 
         // Validation
-        // $request->validate([
-        //     "photos" => "required|mimes:jpg,jpeg,png",
-        //     "codeno" => "required",
-        //     "name" => "required",
-        //     "unit_price" => "required"
-        // ]);
+        $request->validate([
+            "photos" => "required",
+            "codeno" => "required",
+            "name" => "required",
+            "unit_price" => "required"
+        ]);
 
         //upload
         if($request->file()){
@@ -124,12 +125,11 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         // Validation
-        // $request->validate([
-        //     "photos" => "sometimes|mimes:jpg,jpeg,png",
-        //     "codeno" => "required",
-        //     "name" => "required",
-        //     "unit_price" => "required"
-        // ]);
+        $request->validate([
+            "codeno" => "required",
+            "name" => "required",
+            "unit_price" => "required"
+        ]);
 
         //upload
         if($request->file()){
@@ -175,5 +175,67 @@ class ItemController extends Controller
         $item->delete();
 
         return redirect()->route('items.index');
+
     }
+
+
+    // Search Product
+    public function searchProduct(Request $request)
+    {
+        //dd($request);
+        $categories = Category::all();
+
+        $search = $request->search;
+        $search = strtolower($search);
+        $searchWords = explode(" ", $search);
+
+        $category_id = $request->category_id;
+       
+        //$items = Item::whereRaw('lower(name) like (?)',["%{$search}%"])->get();
+
+        $items = Item::query();
+        foreach($searchWords as $word){
+            $items->orWhere('name', 'LIKE', '%'.$word.'%');
+        }
+        $items = $items->distinct()->get();
+
+        // return
+        return view('frontend.searchProduct',compact('items','categories','category_id'));
+    }
+
+
+    public function showItemLimit(Request $request)
+    {
+        //dd($request);
+        $categories = Category::all();
+
+        $showCount = $request->showCount;
+        $sortBy = $request->sortBy;
+        $subcategoryid = $request->subcategoryid;
+        $categoryid = $request->categoryid;
+
+        // if($categoryid){
+        //     $items = Item::all();
+            
+        //     $items = Item::where($items->subcategory->category_id, '=',$categoryid)
+        //     ->where()
+        //     ->orderBy($sortBy, 'asc')
+        //     ->take($showCount)
+        //     ->get();
+        // }
+
+        if($subcategoryid){
+            $items = Item::where('subcategory_id', '=', $subcategoryid)
+            ->orderBy($sortBy, 'asc')
+            ->take($showCount)
+            ->get();
+        }else{
+            $items = Item::orderBy($sortBy,'asc')->take($showCount)->get();
+        }
+        
+
+        // return
+        return view('frontend.showItemLimit',compact('items','categories','showCount','sortBy','subcategoryid'));
+    }
+
 }

@@ -14,12 +14,7 @@ use Illuminate\Support\Str;
 | This directory should contain each of the model factory definitions for
 | your application. Factories provide a convenient way to generate new
 | model instances for testing / seeding your application's database.
-
-run command
--------------------------
-
-C:\xampp\htdocs\blog> php artisan tinker                                     
->>> factory('App\User',2)->create() 
+|
 */
 
 $factory->define(User::class, function (Faker $faker) {
@@ -31,5 +26,3 @@ $factory->define(User::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
     ];
 });
-
-

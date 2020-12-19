@@ -61,13 +61,13 @@
               </p>
               <p> 
                 <span class="text-uppercase"> Price : </span>
-                <span class="ml-3">  {{$item->price}} Ks</span>
+                <span class="ml-3">  {{number_format($item->price,2)}} Ks</span>
               </p>
               <p> 
                 <span class="text-uppercase"> Discount : </span>
                 @if($item->discount)
                   
-                  <span class="maincolor ml-3 font-weight-bolder"> {{$item->discount}} Ks </span>
+                  <span class="maincolor ml-3 font-weight-bolder"> {{number_format($item->discount,2)}} Ks </span>
                 @else
                 <span class="maincolor ml-3 font-weight-bolder"> 0 Ks </span>
                 @endif

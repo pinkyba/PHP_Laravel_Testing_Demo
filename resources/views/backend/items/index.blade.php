@@ -50,11 +50,11 @@
                       
                       @if($item->discount)
                         <td>
-                          {{$item->discount}} Ks <br>
-                          <del>{{$item->price}} Ks</del>
+                          {{number_format($item->discount,2)}} Ks <br>
+                          <del>{{number_format($item->price,2)}} Ks</del>
                         </td>
                       @else
-                        <td>{{$item->price}} Ks</td>
+                        <td>{{number_format($item->price)}} Ks</td>
                       @endif
 
                       <td>

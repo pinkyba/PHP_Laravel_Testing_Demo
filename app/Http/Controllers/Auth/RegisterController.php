@@ -64,10 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        // You identified admin role in db with id 2, so your register user must be cutomer role.
+        // You should assign cutomer role with assignRole('customer')
+        $user->assignRole('customer');
+        return $user;
     }
 }
