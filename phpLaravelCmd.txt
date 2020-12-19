@@ -1,0 +1,95 @@
+1. run php laravel
+---------------------------
+   C:\xampp\htdocs\blog>php artisan serve 
+
+11. display artisan command
+--------------------------------
+    > php artisan list
+
+12. display artisan route list use in your project
+--------------------------------------
+    > php artisan route:list
+
+
+2. create simple controller [** Controller name must be Capital letter.]
+------------------------------------
+   C:\xampp\htdocs\blog>php artisan make:controller ControllerName
+
+
+3. create only table migration (users table)
+----------------------------
+   > php artisan make:migration create_users_table --create=users
+
+
+4. After migration, run migrate to store table in database
+------------------------------------------------------------
+   > php artisan migrate
+
+
+5. create model and migrate in one time
+-------------------------------
+   C:\xampp\htdocs\blog>php artisan make:model Category -m 
+
+
+6. create model, migrate and controller in one time [** Model name must be Capital letter.]
+-------------------------------------------------------
+   > php artisan make:model Item -m -r 
+
+
+7. create controller that relates to model file
+--------------------------------------------------
+   > php artisan make:controller BrandController --resource --model=Brand 
+
+
+8. run fake tinker (auto insert data in db for testing) // faker code is [database>factories>]
+-----------------------------------------------------------
+   C:\xampp\htdocs\blog>php artisan tinker
+      >>> factory('App\User',2)->create()
+      >>> exit
+
+
+9. create seeder (for manually insert data in db) [** Seeder name must be Capital letter.]
+---------------------
+   > php artisan make:seeder UserSeeder
+   
+   Note*** create seeder and call seeder in DatabaseSeeder ==> ($this->call(UserSeeder::class);)
+
+10. run seeder
+-----------------------
+   > php artisan db:seed
+
+11. To link default uploaded images storage file(/storage/app/public/imagefoldername) to (public>imagefoldername)
+   > php artisan storage:link
+
+
+PHP Laravel project git clonning Step
+------------------------------------------
+> git clone giturl
+
+If you download php laravel project file, these files are not contained together this git file:
+	/node_modules
+	/public/hot
+	/public/storage
+	/storage/*.key
+	/vendor
+	.env
+	.env.backup
+	.phpunit.result.cache
+	Homestead.json
+	Homestead.yaml
+	npm-debug.log
+	yarn-error.log
+
+So, you should put app-key in .env file.
+		   -------    ------ 
+> copy .envexample .env
+> composer install
+> php artisan key:generate
+
+
+12. Create API controller with related with model
+    > php artisan make:controller CategoryController --api --model=Category
+
+
+
+
