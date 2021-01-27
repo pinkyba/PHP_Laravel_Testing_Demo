@@ -142,7 +142,7 @@ To distingush cutomer role and admin role
 
 3. To define customer role: ref( https://spatie.be/docs/laravel-permission/v3/basic-usage/basic-usage )
 -----------------------------------------------------
->>>> You identified admin role in db with id 2, so your register user must be cutomer role.
+>>>> You identified admin role in db with id 2, so your register user must be customer role.
 >>>> You should assign cutomer role with assignRole('customer') in RegisterController.php
 
     (1) First, add the Spatie\Permission\Traits\HasRoles trait to your User model(s):
@@ -203,3 +203,29 @@ switch ($roles[0]) {
         return redirect()->route('homepage');
         break;
 }
+
+
+****** Laravel component ****
+--------------------------------------------
+>>>> ထပ်နေတဲ့ view design တွေကို ခနခနပြန်ရေးစရာမလိုဘဲ component ဆောက်ပြီးရေးလို့ရတယ်။
+1. to create component
+> php artisan make:component AlertComponent
+  **** ဒီအပေါ် cmd ကို run လိုက်ရင်....
+  ----> app/View/Components/AlertComponent.php (ဒီdirectory အောက်မှာ AlertComponent.php ဆိုပြီး component class တစ်ခုဆောက်သွားမယ်)
+  ----> resources/views/components/alert-component.blade.php (ဒီအောက်မှာလည်း component blade file တစ်ဖိုင် ဆောက်ပေးသွားမယ်)
+
+2. - သူဆောက်ပေးလိုက်တဲ့ blade file ထဲမှာ ကိုယ်ရေးချင်တဲ့ view အပိုင်းကိုရေး
+   - component class file ထဲမှာ 
+	public $data; 
+	/** 
+	* Create a new component instance. 
+	* 
+	* @return void 
+	*/ 
+	public function __construct($data) 
+	{ 
+		$this->data = $data; 
+	} 
+
+3. ပြီးရင် ကိုယ်ခေါ်သုံးချင်တဲ့ blade file ထဲမှာ component blade template ရဲ့နာမည်ကို x ခံပြီးပြန်ခေါ်သုံးလိုက်ရင်ရပြီ
+   eg: <x-alert-component :data="$data"></x-alert-component>
